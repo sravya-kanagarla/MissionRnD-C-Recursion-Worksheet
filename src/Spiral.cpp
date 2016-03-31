@@ -34,7 +34,32 @@ Note : Check the function Parameters ,Its a double pointer .
 #include "stdafx.h"
 #include<stdlib.h>
 
+void buildSpiralArr(int **input_array, int *result, int startRow, int startCol, int endRow, int endCol, int *resInd) {
+	int i;
+	if (startRow > endRow || startCol > endCol)
+		return;
+	for (i = startCol; i <= endCol; i++, (*resInd)++)
+		result[*resInd] = input_array[startRow][i];
+	startRow++;
+	for (i = startRow; i <= endRow; i++, (*resInd)++)
+		result[*resInd] = input_array[i][endCol];
+	endCol--;
+	for (i = endCol; i >= startCol && startRow <= endRow; i--, (*resInd)++)
+		result[*resInd] = input_array[endRow][i];
+	endRow--;
+	for (i = endRow; i >= startRow && startCol <= endCol; i--, (*resInd)++)
+		result[*resInd] = input_array[i][startCol];
+	startCol++;
+	buildSpiralArr(input_array, result, startRow, startCol, endRow, endCol, resInd);
+}
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	if (rows <= 0 || columns <= 0 || input_array == NULL)
+		return NULL;
+	int resultIndex = 0;
+	int *result = (int *)malloc(sizeof(int) * rows * columns);
+	buildSpiralArr(input_array, result, 0, 0, rows - 1, columns - 1, &resultIndex);
+	return result;
 }
+
+

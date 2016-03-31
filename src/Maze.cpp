@@ -35,8 +35,30 @@ more parameters .
 
 #include<stdlib.h>
 
-
 int path_exists(int *maze, int rows, int columns, int x1, int y1, int x2, int y2)
 {
-	return 1;
+	if (x1 < 0 || x1 >= rows || x2 < 0 || x2 >= rows || y1 < 0 || y1 >= columns || y2 < 0 || y2 >= columns || rows <= 0 || columns <= 0 || maze == NULL || !(maze[x2 * columns + y2]) || !(maze[x1 * columns + y1]))
+		return 0;
+	if (x1 == x2 && y1 == y2)
+		return 1;
+	maze[x1 * columns + y1] = 2;
+	if (y1 + 1 < columns && (maze[x1 * columns + y1 + 1] != 2) && path_exists(maze, rows, columns, x1, y1 + 1, x2, y2)) {
+		maze[x1 * columns + y1] = 1;
+		return 1;
+	}
+	else if (x1 + 1 < rows && (maze[(x1 + 1) * columns + y1] != 2) && path_exists(maze, rows, columns, x1 + 1, y1, x2, y2)) {
+		maze[x1 * columns + y1] = 1;
+		return 1;
+	}
+	else if (y1 - 1 >= 0 && (maze[x1 * columns + y1 - 1] != 2) && path_exists(maze, rows, columns, x1, y1 - 1, x2, y2)) {
+		maze[x1 * columns + y1] = 1;
+		return 1;
+	}
+	else if (x1 - 1 >= 0 && (maze[(x1 - 1) * columns + y1] != 2) && path_exists(maze, rows, columns, x1 - 1, y1, x2, y2)) {
+		maze[x1 * columns + y1] = 1;
+		return 1;
+	} else {
+		maze[x1 * columns + y1] = 1;
+		return 0;
+	}
 }
