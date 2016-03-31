@@ -50,10 +50,8 @@ int checkPlace(int *battlefield, int k, int col, int n) {
 		for (j = 0; j < n; j++) {
 			if ((battlefield + i * n)[j] == 1) {
 				r = i - k;
-				r = r < 0 ? r * -1 : r;
 				c = col - j;
-				c = c < 0 ? c * -1 : c;
-				if (col == j || r == c)
+				if (col == j || (r < 0 ? r * -1 : r) == (c < 0 ? c * -1 : c))
 					return 0;
 			}
 		}
